@@ -1,0 +1,46 @@
+-- Guild Format --
+
+class Guild
+{
+	Guid GuildId
+	List<Team> Team
+	List<Character> Characters
+	List<Proficiency> Proficiencies
+	???? FarmList
+	???? HuntingList
+	Inventory Inventory
+}
+
+class Team
+{
+	Guid CurrentZone
+	int TeamId
+	string Name
+	List<Guid> Units
+	DateTime PriamryActionFinish
+	int ActionType
+}
+
+class Character
+{
+	Guid UnitId
+	Guid BaseCharacterId
+	int Level
+	StatSheet Stats
+	EquipmentSheet CharacterEquipmentSheet
+	Regimin Regimen
+	List<Skill> Skills
+	string Name
+	int TeamId
+	int TeamSlotNumber
+}
+
+class Inventory
+{
+	int Id
+	List<EquippableItem> EquippableItems
+	List<NonEquippableItem> NonEquippableItems
+	List<CharacterCard> CharacterCards
+	decimal Currency
+	int Size
+}

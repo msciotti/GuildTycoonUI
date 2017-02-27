@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Image, Text, View, Button, Alert, Navigator } from 'react-native';
 import OAuthManager from 'react-native-oauth';
+import GLOBAL from './Globals';
 
 const manager = new OAuthManager('RedFish')
 
@@ -44,10 +45,10 @@ class LoginPage extends Component {
       fetch(`http://guildmanager-dev.azurewebsites.net/GetToken?accessToken=${token}`)
       .then(response => response.json())
       .then(data => {
+        GLOBAL.token = `Bearer ${data.token}`;
         this.props.navigator.push({
           component: guildPage,
-          guilds: data.chronicles,
-          token: data.token
+          data: data,
         })
       })
     })
@@ -64,4 +65,5 @@ const styles = StyleSheet.create({
     }
 });
 
+module.exports = BackgroundImage;
 module.exports = LoginPage;
