@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, Button, StyleSheet } from 'react-native';
+import { View, ListView, Text, Navigator, TouchableHighlight, StyleSheet } from 'react-native';
 
 class CharacterPage extends Component {
   constructor(props){
@@ -19,8 +19,10 @@ class CharacterPage extends Component {
     );
   }
   renderRow(character){
-    return (
-      <Button style={styles.item} onPress={() => this.onPressSelectCharacter(character)} title={character.unitId} />
+    return (      
+      <TouchableHighlight style={styles.item} onPress={() => this.onPressSelectCharacter(character)}>
+        <Text style={styles.item}>{character.name}</Text>
+      </TouchableHighlight>      
     );
   }
 
@@ -34,16 +36,16 @@ class CharacterPage extends Component {
 }
 
 var styles = StyleSheet.create({
-    list: {
+    list: {        
         justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
-    item: {
+    item: {        
         backgroundColor: '#CCC',
         margin: 10,
-        width: 100,
-        height: 100
+        width: 50,
+        height: 50
     }
 });
 
