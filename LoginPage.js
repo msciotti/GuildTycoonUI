@@ -45,7 +45,7 @@ class LoginPage extends Component {
       fetch(`http://guildmanager-dev.azurewebsites.net/GetToken?accessToken=${token}`)
       .then(response => response.json())
       .then(data => {
-        GLOBAL.token = `Bearer ${data.token}`;
+        GLOBAL.token = `Bearer ${data.token}`;        
         this.props.navigator.push({
           component: guildPage,
           data: data,

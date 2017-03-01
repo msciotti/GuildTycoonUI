@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { View, ListView, Text, Navigator, Image, StyleSheet, TextInput } from 'react-native';
+import GLOBAL from './Globals';
 
 class SingleCharacterPage extends Component {
   constructor(props){
     super(props);
-    this.state = { text: 'wazzup' };
+    this.state = { character: GLOBAL.guild.characters.find(x => x.unitId === this.props.route.id) };
   }
   render(){
-    var stats = this.props.route.character.stats.base;
+    var stats = this.state.character.stats.base;
     return (
       <View style={styles.container}>
         <View style={styles.charSheet}>
@@ -19,7 +20,7 @@ class SingleCharacterPage extends Component {
             <View style={styles.square}><Text>WAIST</Text></View>
             <View style={styles.square}><Text>FEET</Text></View>
           </View>
-          <TextInput style={styles.name} editable={true} onChangeText={(text) => this.changeCharacter(text)} value={this.state.text}  />
+          <TextInput style={styles.name} editable={true} onSubmitEditing={(event) => this.changeCharacter(event.nativeEvent.text, this.state.character)} value={this.state.character.name}  />          
           <View>
             <View style={styles.square}><Text>NECK</Text></View>
             <View style={styles.square}><Text>RING</Text></View>
@@ -41,24 +42,26 @@ class SingleCharacterPage extends Component {
     );
   }
 
-  changeCharacter(text){
-    fetch(`http://guildmanager-dev.azurewebsites.net/UpdateCharacter`, {
+  changeCharacter(text, character){    
+    var fetchParams = {
       method: 'POST',
       headers: {
-        'Authorization': GLOBAL.token
+        'Authorization': GLOBAL.token,
+        'Content-Type':'application/json'
       },
-      body:{
-        GuildId: GLOBAL.PLAYER_CONTEXT.guildId,
-        UnitId: this.props.route.character.unitId,
+      body: JSON.stringify({
+        GuildId: GLOBAL.guild.guildId,
+        UnitId: character.unitId,
         Name: text,
-        EquipmentSheet: this.props.route.equipmentSheet,
-        Regimen: this.props.route.regimen
-      }
-    })
+        EquipmentSheet: character.equipmentSheet,
+        Regimen: character.regimen
+      })
+    };
+    fetch(`http://guildmanager-dev.azurewebsites.net/UpdateCharacter`, fetchParams)
     .then(response => response.json())
     .then(data => {
-      GLOBAL.PLAYER_CONTEXT = data;
-      this.setState({text});
+      GLOBAL.guild = data;
+      console.log('Saved!');     
     })
   }  
 }

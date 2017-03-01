@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { View, ListView, Text, Navigator, TouchableHighlight, StyleSheet } from 'react-native';
+import GLOBAL from './Globals';
 
 class CharacterPage extends Component {
-  constructor(props){
+  constructor(props){    
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.route.characters)
+      dataSource: ds.cloneWithRows(GLOBAL.guild.characters)
     };
   }
+
+  componentWillUpdate(nextProps){    
+    this.setState({dataSource: this.state.dataSource.cloneWithRows(GLOBAL.guild.characters)});
+  }
+
   render(){
     return (
       <ListView
@@ -30,7 +36,7 @@ class CharacterPage extends Component {
   	var singleCharacterPage = require('./SingleCharacterPage');
   	this.props.navigator.push({
       component: singleCharacterPage,
-      character: character,
+      id: character.unitId,
     });
   }    
 }

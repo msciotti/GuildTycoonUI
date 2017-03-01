@@ -1,4 +1,4 @@
 module.exports = {
-	TOKEN: '',
-	PLAYER_CONTEXT: {}
+	token: '',
+	guild: {}
 }

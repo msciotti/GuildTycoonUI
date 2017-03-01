@@ -13,7 +13,7 @@ class App extends Component {
   }
   renderScene(route, navigator) {
      return React.createElement(route.component, {navigator, route});
-   }
+   }  
 }
 
 AppRegistry.registerComponent('GuildTycoonUI', () => App);

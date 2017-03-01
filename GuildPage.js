@@ -35,11 +35,10 @@ class GuildPage extends Component {
     })
     .then(response => response.json())
     .then(data => {
-      GLOBAL.PLAYER_CONTEXT = data;
+      GLOBAL.guild = data;
       this.props.navigator.push({
-          component: characterPage,
-          characters: data.characters,
-        })
+          component: characterPage
+      });
     })
   }    
 }
