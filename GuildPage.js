@@ -25,7 +25,7 @@ class GuildPage extends Component {
     );
   }
 
-  onPressSelectGuild(guildId){
+  onPressSelectGuild(guildId){    
     var characterPage = require('./CharacterPage');
     fetch(`http://guildmanager-dev.azurewebsites.net/GetGuild?guildId=${guildId}`, {
       method: 'GET',
@@ -34,7 +34,7 @@ class GuildPage extends Component {
       }
     })
     .then(response => response.json())
-    .then(data => {
+    .then(data => {      
       GLOBAL.guild = data;
       this.props.navigator.push({
           component: characterPage

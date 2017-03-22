@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, Image, StyleSheet, TextInput } from 'react-native';
+import { View, ListView, Text, Navigator, StyleSheet, TextInput } from 'react-native';
 import GLOBAL from './Globals';
 
-class SingleCharacterPage extends Component {
-  constructor(props){
+class CharacterSheetPage extends Component {
+  constructor(props){    
     super(props);
-    this.state = { character: GLOBAL.guild.characters.find(x => x.unitId === this.props.route.id) };
+    var chosenCharacter = GLOBAL.guild.characters.find(x => x.unitId == this.props.route.id);
+    this.state = { character: chosenCharacter, name: chosenCharacter.name };
   }
   render(){
-    var stats = this.state.character.stats.base;
+    var stats = this.state.character.stats.base;    
     return (
       <View style={styles.container}>
         <View style={styles.charSheet}>
@@ -20,7 +21,7 @@ class SingleCharacterPage extends Component {
             <View style={styles.square}><Text>WAIST</Text></View>
             <View style={styles.square}><Text>FEET</Text></View>
           </View>
-          <TextInput style={styles.name} editable={true} onSubmitEditing={(event) => this.changeCharacter(event.nativeEvent.text, this.state.character)} value={this.state.character.name}  />          
+          <TextInput style={styles.name} value={this.state.name} onChangeText={(text) => this.setState({name: text})} onSubmitEditing={(event) => this.changeCharacter(event.nativeEvent.text, this.state.character)}/>
           <View>
             <View style={styles.square}><Text>NECK</Text></View>
             <View style={styles.square}><Text>RING</Text></View>
@@ -42,8 +43,8 @@ class SingleCharacterPage extends Component {
     );
   }
 
-  changeCharacter(text, character){    
-    var fetchParams = {
+  changeCharacter = (text, character) => {    
+     var fetchParams = {
       method: 'POST',
       headers: {
         'Authorization': GLOBAL.token,
@@ -63,6 +64,7 @@ class SingleCharacterPage extends Component {
       GLOBAL.guild = data;
       console.log('Saved!');     
     })
+    .catch((error) => { console.log(error); });
   }  
 }
 
@@ -101,4 +103,4 @@ var styles = StyleSheet.create({
   }
 })
 
-module.exports = SingleCharacterPage;
+module.exports = CharacterSheetPage;

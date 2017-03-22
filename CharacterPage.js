@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, ListView, Text, Navigator, Button, StyleSheet } from 'react-native';
 import GLOBAL from './Globals';
 
 class CharacterPage extends Component {
@@ -11,48 +11,41 @@ class CharacterPage extends Component {
     };
   }
 
-  componentWillUpdate(nextProps){    
-    this.setState({dataSource: this.state.dataSource.cloneWithRows(GLOBAL.guild.characters)});
-  }
+  // componentWillUpdate(nextProps){    
+  //   this.setState({dataSource: this.state.dataSource.cloneWithRows(GLOBAL.guild.characters)});
+  // }
 
   render(){
     return (
-      <ListView
-        contentContainerStyle={styles.list}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow.bind(this)}
-      />
+      <View>
+        <Button title='Inventory' color='red' onPress={() => this.goToInventory()} />
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+        />
+      </View>
     );
   }
   renderRow(character){
     return (      
-      <TouchableHighlight style={styles.item} onPress={() => this.onPressSelectCharacter(character)}>
-        <Text style={styles.item}>{character.name}</Text>
-      </TouchableHighlight>      
+      <Button color='blue' onPress={() => this.onPressSelectCharacter(character)} title={character.name || 'eh heh wi'} />        
     );
   }
 
-  onPressSelectCharacter(character){
-  	var singleCharacterPage = require('./SingleCharacterPage');
+  goToInventory = () => {
+    var inventory = require('./InventoryPage');
+    this.props.navigator.push({
+      component: inventory
+    });
+  }
+
+  onPressSelectCharacter = (character) => {
+  	var characterSheetPage = require('./CharacterSheetPage');
   	this.props.navigator.push({
-      component: singleCharacterPage,
+      component: characterSheetPage,
       id: character.unitId,
     });
   }    
 }
-
-var styles = StyleSheet.create({
-    list: {        
-        justifyContent: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap'
-    },
-    item: {        
-        backgroundColor: '#CCC',
-        margin: 10,
-        width: 50,
-        height: 50
-    }
-});
 
 module.exports = CharacterPage;
