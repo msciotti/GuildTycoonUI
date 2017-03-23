@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, StyleSheet, TextInput } from 'react-native';
+import { View, ListView, Text, Navigator, StyleSheet, TextInput, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
 
 class CharacterSheetPage extends Component {
@@ -11,7 +11,7 @@ class CharacterSheetPage extends Component {
   render(){
     var stats = this.state.character.stats.base;    
     return (
-      <View style={styles.container}>
+      <Image source={require('./images/pixelsky.jpg')} style={styles.container}>
         <View style={styles.charSheet}>
           <View>
             <View style={styles.square}><Text>HEAD</Text></View>
@@ -39,7 +39,7 @@ class CharacterSheetPage extends Component {
           <Text style={styles.stat}>AGI: {stats.agility}</Text>
           <Text style={styles.stat}>FCS: {stats.focus}</Text>
         </View> 
-      </View> 
+      </Image> 
     );
   }
 
@@ -58,7 +58,7 @@ class CharacterSheetPage extends Component {
         Regimen: character.regimen
       })
     };
-    fetch(`http://guildmanager-dev.azurewebsites.net/UpdateCharacter`, fetchParams)
+    fetch(`http://guildtycoon-api-dev.azurewebsites.net/UpdateCharacter`, fetchParams)
     .then(response => response.json())
     .then(data => {
       GLOBAL.guild = data;
@@ -98,8 +98,10 @@ var styles = StyleSheet.create({
   },
   container:{
     flex: 1,
-    backgroundColor: 'black',
-    flexDirection: 'column'    
+    flexDirection: 'column',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    resizeMode: 'cover'
   }
 })
 

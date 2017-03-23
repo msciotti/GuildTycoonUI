@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, ListView, View } from 'react-native';
 import GLOBAL from './Globals';
 
-class EquippableItems extends Component {
+export class EquippableItems extends Component {
 	constructor(props){
 		super(props);
 	    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -30,7 +30,7 @@ class EquippableItems extends Component {
   	}
 }
 
-class NonEquippableItems extends Component {
+export class NonEquippableItems extends Component {
 	constructor(props){
 		super(props);
 	    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -58,7 +58,7 @@ class NonEquippableItems extends Component {
   	}
 }
 
-class CharacterCards extends Component {
+export class CharacterCards extends Component {
 	constructor(props){
 		super(props);
 	    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -85,5 +85,3 @@ class CharacterCards extends Component {
 	    );
   	}
 }
-
-module.exports = { EquippableItems, NonEquippableItems, CharacterCards };

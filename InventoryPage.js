@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text, Navigator } from 'react-native';
+import { View, Text, Navigator, Image, Dimensions, StyleSheet } from 'react-native';
 import GLOBAL from './Globals';
-import EquippableItems from './InventoryHelpers';
-import NonEquippableItems from './InventoryHelpers';
-import CharacterCards from './InventoryHelpers';
+import { EquippableItems, NonEquippableItems, CharacterCards } from './InventoryHelpers';
 
 class InventoryPage extends Component {
-	render(){
+	render(){		
 		return(
-			<View>
-				<Text>Size: {GLOBAL.guild.guildInventory.size}</Text>
-				<Text>Current: {GLOBAL.guild.guildInventory.currency}</Text>
+			<Image source={require('./images/pixelsky.jpg')} style={styles.backgroundImage}>
 				<EquippableItems />
 				<NonEquippableItems />
 				<CharacterCards />
-			</View>
+				<Text style={styles.floatText}>{GLOBAL.guild.guildInventory.size}/100 |  {GLOBAL.guild.guildInventory.currency} gold</Text>					
+			</Image>
 		);
 	}
 }
+
+const styles = StyleSheet.create({
+  backgroundImage:{
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    resizeMode: 'cover'
+  },
+
+  floatText:{
+  	color: 'blue',  
+  	alignSelf:'center'
+  }
+});
 
 module.exports = InventoryPage;

@@ -42,9 +42,9 @@ class LoginPage extends Component {
     manager.authorize('facebook')
     .then(resp => {
       var token = resp.response.credentials.accessToken;
-      fetch(`http://guildmanager-dev.azurewebsites.net/GetToken?accessToken=${token}`)
+      fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetToken?accessToken=${token}`)
       .then(response => response.json())
-      .then(data => {
+      .then(data => {        
         GLOBAL.token = `Bearer ${data.token}`;        
         this.props.navigator.push({
           component: guildPage,

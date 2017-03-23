@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, Button, StyleSheet } from 'react-native';
+import { View, ListView, Text, Navigator, Button, StyleSheet, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
 
 class CharacterPage extends Component {
@@ -17,13 +17,13 @@ class CharacterPage extends Component {
 
   render(){
     return (
-      <View>
-        <Button title='Inventory' color='red' onPress={() => this.goToInventory()} />
+      <Image source={require('./images/pixelsky.jpg')} style={styles.backgroundImage}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
         />
-      </View>
+        <Button title='Inventory' color='red' onPress={() => this.goToInventory()} />
+      </Image>
     );
   }
   renderRow(character){
@@ -47,5 +47,14 @@ class CharacterPage extends Component {
     });
   }    
 }
+
+const styles = StyleSheet.create({
+  backgroundImage:{
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    resizeMode: 'cover'
+  },
+})
 
 module.exports = CharacterPage;
