@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Image, Text, View, Button, Alert, Navigator } from 'react-native';
+import { AppRegistry, StyleSheet, Image, Text, View, Button, Navigator, Dimensions } from 'react-native';
 import OAuthManager from 'react-native-oauth';
 import GLOBAL from './Globals';
 
@@ -12,58 +12,41 @@ manager.configure({
   }
 });
 
-class BackgroundImage extends Component {
-  render() {
-    return (
-      <Image source={require('./images/pixelbackground.jpg')}
-            style={styles.backgroundImage}>
-            {this.props.children}
-      </Image>
-    )
-  }
-}
-
 class LoginPage extends Component {
   render(){
     return (
-        <BackgroundImage>
+      <Image source={require('./images/pixelsky.jpg')} style={styles.backgroundImage}>
         <View style={{flex:1, flexDirection:'column-reverse', marginBottom:25, marginLeft:10, marginRight:10}}>
           <Button
-            onPress={this.onPressFBLogin}
+            onPress={() => this.onPressFBLogin()}
             title="Login with Facebook"
-            color="blue"/>
-          </View>
-        </BackgroundImage>
+            color="blue" />
+        </View>
+      </Image>
     )
   }
 
-  onPressFBLogin = () => {
+  async onPressFBLogin(){
     var guildPage = require('./GuildPage');
-    manager.authorize('facebook')
-    .then(resp => {
-      var token = resp.response.credentials.accessToken;
-      fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetToken?accessToken=${token}`)
-      .then(response => response.json())
-      .then(data => {        
-        GLOBAL.token = `Bearer ${data.token}`;        
-        this.props.navigator.push({
-          component: guildPage,
-          data: data,
-        })
-      })
-    })
-    .catch(err => console.error(err.message));
+    var response = await manager.authorize('facebook');
+    await this.getGuildTycoonToken(response.response.credentials.accessToken);
+    this.props.navigator.push({ component: guildPage });    
   }
+
+  async getGuildTycoonToken(accessToken){
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetToken?accessToken=${accessToken}`);
+    var json = await response.json();
+    GLOBAL.token = `Bearer ${json.token}`;    
+  }    
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'cover'
-    }
+  backgroundImage:{
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    resizeMode: 'cover'
+  }
 });
 
-module.exports = BackgroundImage;
 module.exports = LoginPage;

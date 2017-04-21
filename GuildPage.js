@@ -1,50 +1,46 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
+import { Text, Navigator, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
 
 class GuildPage extends Component {
-  constructor(props){
-    super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(this.props.route.data.chronicles)
-    };
+  async componentWillMount(){    
+    await this.getUserData();    
   }
-  render(){
+
+  render(){    
     return (
       <Image source={require('./images/pixelsky.jpg')} style={styles.backgroundImage}>
-        <ListView contentContainerStyle={styles.container}
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)}
-        />
+        <TouchableOpacity style={styles.buttonBase} onPress={() => this.onPressSelectGuild(GLOBAL.userInfo.Guild1Id)}>        
+          <Text style={styles.text}>{GLOBAL.userInfo.Guild1Name || ''}</Text>        
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonBase} onPress={() => this.onPressSelectGuild(GLOBAL.userInfo.Guild2Id)}>        
+          <Text style={styles.text}>{GLOBAL.userInfo.Guild2Name || ''}</Text>        
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonBase} onPress={() => this.onPressSelectGuild(GLOBAL.userInfo.Guild3Id)}>        
+          <Text style={styles.text}>{GLOBAL.userInfo.Guild3Name || ''}</Text>        
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonBase} onPress={() => this.onPressSelectGuild(GLOBAL.userInfo.Guild4Id)}>        
+          <Text style={styles.text}>{GLOBAL.userInfo.Guild4Name || ''}</Text>        
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonBase} onPress={() => this.onPressSelectGuild(GLOBAL.userInfo.Guild5Id)}>        
+          <Text style={styles.text}>{GLOBAL.userInfo.Guild5Name || ''}</Text>        
+        </TouchableOpacity>
       </Image>
     );
+  }  
+
+  async getUserData(){
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetUser`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
+    var json = await response.json();
+    GLOBAL.userInfo = json;
   }
 
-  renderRow(guildId){
-    return (
-      <TouchableOpacity style={styles.buttonBase} onPress={() => this.onPressSelectGuild(guildId)}>        
-          <Text style={styles.text}>{guildId}</Text>        
-      </TouchableOpacity>
-    );
-  }
-
-  onPressSelectGuild(guildId){    
+  async onPressSelectGuild(guildId){    
     var characterPage = require('./CharacterPage');
-    fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetGuild?guildId=${guildId}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': GLOBAL.token
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(JSON.stringify(data));
-      GLOBAL.guild = data;
-      this.props.navigator.push({
-          component: characterPage
-      });
-    })
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetGuild?guildId=${guildId}`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
+    var json = await response.json();
+    GLOBAL.currentGuild = json;
+    this.props.navigator.push({ component: characterPage });
   }    
 }
 
