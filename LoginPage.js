@@ -27,16 +27,23 @@ class LoginPage extends Component {
   }
 
   async onPressFBLogin(){
-    var guildPage = require('./GuildPage');
+    var userDashboardPage = require('./UserDashboardPage');
     var response = await manager.authorize('facebook');
     await this.getGuildTycoonToken(response.response.credentials.accessToken);
-    this.props.navigator.push({ component: guildPage });    
+    await this.getUserData();
+    this.props.navigator.push({ component: userDashboardPage });    
   }
 
   async getGuildTycoonToken(accessToken){
     var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetToken?accessToken=${accessToken}`);
     var json = await response.json();
     GLOBAL.token = `Bearer ${json.token}`;    
+  }
+
+  async getUserData(){
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetUser`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
+    var json = await response.json();
+    GLOBAL.userInfo = json;
   }    
 }
 
