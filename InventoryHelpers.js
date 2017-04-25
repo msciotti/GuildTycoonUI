@@ -7,7 +7,7 @@ export class EquippableItems extends Component {
 		super(props);
 	    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-      		dataSource: ds.cloneWithRows(GLOBAL.guild.guildInventory.equippableItems)
+      		dataSource: ds.cloneWithRows(GLOBAL.currentGuild.guildInventory.equippableItems)
     	};
 	}
 
@@ -35,7 +35,7 @@ export class NonEquippableItems extends Component {
 		super(props);
 	    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-      		dataSource: ds.cloneWithRows(GLOBAL.guild.guildInventory.nonEquippableItems)
+      		dataSource: ds.cloneWithRows(GLOBAL.currentGuild.guildInventory.nonEquippableItems)
     	};
 	}
 
@@ -63,7 +63,7 @@ export class CharacterCards extends Component {
 		super(props);
 	    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-      		dataSource: ds.cloneWithRows(GLOBAL.guild.guildInventory.characterCards)
+      		dataSource: ds.cloneWithRows(GLOBAL.currentGuild.guildInventory.characterCards)
     	};
 	}
 

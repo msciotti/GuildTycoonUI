@@ -10,7 +10,7 @@ class InventoryPage extends Component {
 				<EquippableItems />
 				<NonEquippableItems />
 				<CharacterCards />
-				<Text style={styles.floatText}>{GLOBAL.guild.guildInventory.size}/100 |  {GLOBAL.guild.guildInventory.currency} gold</Text>					
+				<Text style={styles.floatText}>{GLOBAL.currentGuild.guildInventory.size}/100 |  {GLOBAL.currentGuild.guildInventory.currency} gold</Text>					
 			</Image>
 		);
 	}

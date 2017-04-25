@@ -1,45 +1,43 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, Button, StyleSheet, Image, Dimensions } from 'react-native';
+import {  View, ListView, Text, Navigator, Button, StyleSheet, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
+import MenuPopup from './MenuPopup';
 
 class CharacterPage extends Component {
   constructor(props){    
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows(GLOBAL.guild.characters)
+      dataSource: ds.cloneWithRows(GLOBAL.currentGuild.characters)
     };
   }
 
-  // componentWillUpdate(nextProps){    
-  //   this.setState({dataSource: this.state.dataSource.cloneWithRows(GLOBAL.guild.characters)});
-  // }
-
   render(){
-    return (
-      <Image source={require('./images/pixelsky.jpg')} style={styles.backgroundImage}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)}
-        />
-        <Button title='Inventory' color='red' onPress={() => this.goToInventory()} />
-      </Image>
+    return (      
+        <Image source={require('./images/pixelsky.jpg')} style={styles.backgroundImage}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow.bind(this)}
+          />
+          <MenuPopup />          
+        </Image>      
     );
   }
+  
   renderRow(character){
     return (      
       <Button color='blue' onPress={() => this.onPressSelectCharacter(character)} title={character.name || 'eh heh wi'} />        
     );
   }
 
-  goToInventory = () => {
+  goToInventory(){
     var inventory = require('./InventoryPage');
     this.props.navigator.push({
       component: inventory
     });
   }
 
-  onPressSelectCharacter = (character) => {
+  onPressSelectCharacter(character){
   	var characterSheetPage = require('./CharacterSheetPage');
   	this.props.navigator.push({
       component: characterSheetPage,

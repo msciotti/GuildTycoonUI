@@ -5,7 +5,7 @@ import GLOBAL from './Globals';
 class CharacterSheetPage extends Component {
   constructor(props){    
     super(props);
-    var chosenCharacter = GLOBAL.guild.characters.find(x => x.unitId == this.props.route.id);
+    var chosenCharacter = GLOBAL.currentGuild.characters.find(x => x.unitId == this.props.route.id);
     this.state = { character: chosenCharacter, name: chosenCharacter.name };
   }
   render(){
