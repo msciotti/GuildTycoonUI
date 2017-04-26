@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ListView, Text, Navigator, StyleSheet, TextInput, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
+import PopUpDialog from 'react-native-popup-dialog';
 
 class CharacterSheetPage extends Component {
   constructor(props){    
@@ -9,7 +10,7 @@ class CharacterSheetPage extends Component {
     this.state = { character: chosenCharacter, name: chosenCharacter.name };
   }
   render(){
-    var stats = this.state.character.stats.base;    
+    let stats = this.state.character.stats.base;    
     return (
       <Image source={require('./images/pixelsky.jpg')} style={styles.container}>
         <View style={styles.charSheet}>
@@ -43,8 +44,8 @@ class CharacterSheetPage extends Component {
     );
   }
 
-  changeCharacter = (text, character) => {    
-     var fetchParams = {
+  async changeCharacter(text, character){    
+     let fetchParams = {
       method: 'POST',
       headers: {
         'Authorization': GLOBAL.token,
@@ -58,13 +59,9 @@ class CharacterSheetPage extends Component {
         Regimen: character.regimen
       })
     };
-    fetch(`http://guildtycoon-api-dev.azurewebsites.net/UpdateCharacter`, fetchParams)
-    .then(response => response.json())
-    .then(data => {
-      GLOBAL.guild = data;
-      console.log('Saved!');     
-    })
-    .catch((error) => { console.log(error); });
+    let response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/UpdateCharacter`, fetchParams);
+    let json = response.json();
+    GLOBAL.guild = json;
   }  
 }
 
