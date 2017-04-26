@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Navigator, StyleSheet, TextInput, Image, Dimensions } from 'react-native';
+import { View, ListView, Text, Navigator, StyleSheet, TextInput, Image, Dimensions, TouchableOpacity } from 'react-native';
 import GLOBAL from './Globals';
 import PopUpDialog from 'react-native-popup-dialog';
 
@@ -7,30 +7,28 @@ class CharacterSheetPage extends Component {
   constructor(props){    
     super(props);
     var chosenCharacter = GLOBAL.currentGuild.characters.find(x => x.unitId == this.props.route.id);
-    this.state = { character: chosenCharacter, name: chosenCharacter.name };
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    console.log(JSON.stringify(chosenCharacter.equipmentSheet));
+    this.state = { 
+      character: chosenCharacter, 
+      name: chosenCharacter.name,
+      dataSource: ds.cloneWithRows(chosenCharacter.equipmentSheet)
+    };    
   }
   render(){
     let stats = this.state.character.stats.base;    
     return (
       <Image source={require('./images/pixelsky.jpg')} style={styles.container}>
-        <View style={styles.charSheet}>
-          <View>
-            <View style={styles.square}><Text>HEAD</Text></View>
-            <View style={styles.square}><Text>SHOULDERS</Text></View>
-            <View style={styles.square}><Text>CHEST</Text></View>
-            <View style={styles.square}><Text>LEGS</Text></View>
-            <View style={styles.square}><Text>WAIST</Text></View>
-            <View style={styles.square}><Text>FEET</Text></View>
-          </View>
+        <View style={styles.charSheet}>          
+          <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
+
           <TextInput style={styles.name} value={this.state.name} onChangeText={(text) => this.setState({name: text})} onSubmitEditing={(event) => this.changeCharacter(event.nativeEvent.text, this.state.character)}/>
-          <View>
-            <View style={styles.square}><Text>NECK</Text></View>
-            <View style={styles.square}><Text>RING</Text></View>
-            <View style={styles.square}><Text>RING</Text></View>
-            <View style={styles.square}><Text>CHARM</Text></View>
-            <View style={styles.square}><Text>MAINHAND</Text></View>
-            <View style={styles.square}><Text>OFFHAND</Text></View>
-          </View>          
+
+          <PopUpDialog ref={(popUpDialog) => this.popUpDialog = popUpDialog}>
+            <View>
+              <Text>Yo</Text>
+            </View>
+          </PopUpDialog>
         </View>
         <View style={styles.stats}>
           <Text style={styles.stat}>VIT: {stats.vitality}</Text>
@@ -42,6 +40,18 @@ class CharacterSheetPage extends Component {
         </View> 
       </Image> 
     );
+  }
+
+  renderRow(item){
+    let inventoryItem = GLOBAL.currentGuild.guildInventory.equippableItems.find(x => x.itemId == item);
+    return ( 
+      //<TouchableOpacity color='blue' onPress={() => this.itemPopup()} title={item.value || 'eh heh wi'} />
+      <Text>{inventoryItem}</Text>
+    );
+  }
+
+  itemPopup(){
+
   }
 
   async changeCharacter(text, character){    
