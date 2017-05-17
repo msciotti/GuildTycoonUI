@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {  View, ListView, Text, Navigator, Button, StyleSheet, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
-import MenuPopup from './MenuPopup';
+import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
+import AppNavigator from './AppNavigator';
+import NavigationPopup from './NavigationPopup'
 
 class CharacterPage extends Component {
   constructor(props){    
@@ -19,31 +21,17 @@ class CharacterPage extends Component {
             dataSource={this.state.dataSource}
             renderRow={this.renderRow.bind(this)}
           />
-          <MenuPopup />          
+          <NavigationPopup ref={() => this.popUpDialog = this.popUpDialog}/>
+          <Button title="Navigation" onPress={() => this.popUpDialog.show()} />
         </Image>      
     );
   }
   
   renderRow(character){
     return (      
-      <Button color='blue' onPress={() => this.onPressSelectCharacter(character)} title={character.name || 'eh heh wi'} />        
+      <Button color='blue' onPress={() => AppNavigator.navigate(character.unitId)} title={character.name || 'eh heh wi'} />        
     );
-  }
-
-  goToInventory(){
-    var inventory = require('./InventoryPage');
-    this.props.navigator.push({
-      component: inventory
-    });
-  }
-
-  onPressSelectCharacter(character){
-  	var characterSheetPage = require('./CharacterSheetPage');
-  	this.props.navigator.push({
-      component: characterSheetPage,
-      id: character.unitId,
-    });
-  }    
+  }     
 }
 
 const styles = StyleSheet.create({
