@@ -21,9 +21,8 @@ class CharacterPage extends Component {
             dataSource={this.state.dataSource}
             renderRow={this.renderRow.bind(this)}
           />
-          <NavigationPopup ref={() => this.popUpDialog = this.popUpDialog}/>
-          <Button title="Navigation" onPress={() => this.popUpDialog.show()} />
-        </Image>      
+          <NavigationPopup navigator={this.props.navigator}/>
+        </Image>
     );
   }
   

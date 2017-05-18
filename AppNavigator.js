@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Navigator } from 'react-native';
+import { Navigator, Alert } from 'react-native';
 
-class AppNavigator extends Component{    
+class AppNavigator extends Component{
     render(){
         var loginPage = require('./LoginPage');
         return (
             <Navigator
-                ref={(c) => this.nav = c}
                 initialRoute={{ component: loginPage }}
                 renderScene={ this.renderScene }
             />
@@ -14,13 +13,6 @@ class AppNavigator extends Component{
     }
     renderScene(route, navigator) {
         return React.createElement(route.component, {navigator, route});
-    }
-
-    static navigate(route){
-        var page = require('./InventoryPage');
-        this.nav.push({ 
-            component: page
-        });
     }
 }
 

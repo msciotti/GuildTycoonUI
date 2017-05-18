@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ListView, View } from 'react-native';
+import { Text, ListView, View, Alert } from 'react-native';
 import GLOBAL from './Globals';
 
 export class EquippableItems extends Component {
