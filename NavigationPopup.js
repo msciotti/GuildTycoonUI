@@ -13,11 +13,33 @@ class NavigationPopup extends Component{
         this.setState({modalVisible: !this.state.modalVisible});
     }
 
-    dismissAndNavigate(){
+    dismissAndNavigate(page){
+        let newRoute = {};
+        switch (page) {
+            case 'AdventureBoard':
+                newRoute = require('./InventoryPage');
+                break;
+            case 'Characters':
+                newRoute = require('./CharacterPage');
+                break;
+                case 'Teams':
+                newRoute = require('./InventoryPage');
+                break;
+                case 'Map':
+                newRoute = require('./InventoryPage');
+                break;
+                case 'Inventory':
+                newRoute = require('./InventoryPage');
+                break;
+                case 'ChangeGuild':
+                newRoute = require('./UserDashboardPage');
+                break;
+            default:
+                break;
+        }
         this.setModalVisible();
-        var inventory = require('./InventoryPage')
         this.props.navigator.push({
-            component: inventory
+            component: newRoute
         });
     }
 
@@ -31,12 +53,12 @@ class NavigationPopup extends Component{
                 visible={this.state.modalVisible}
                 onRequestClose={() => this.setModalVisible()} >
                     <View>
-                        <Button title="Adventure Board" onPress={() => AppNavigator.navigate()} />
-                        <Button title="Characters" onPress={() => AppNavigator.navigate()} />
-                        <Button title="Teams" onPress={() => AppNavigator.navigate()} />
-                        <Button title="Map" onPress={() => AppNavigator.navigate()} />
-                        <Button title="Inventory" onPress={() => this.dismissAndNavigate()} />
-                        <Button title="Change Guild" onPress={() => AppNavigator.navigate()} />
+                        <Button title="Adventure Board" onPress={() => this.dismissAndNavigate('AdventureBoard')} />
+                        <Button title="Characters" onPress={() => this.dismissAndNavigate('Characters')} />
+                        <Button title="Teams" onPress={() => this.dismissAndNavigate('Teams')} />
+                        <Button title="Map" onPress={() => this.dismissAndNavigate('Map')} />
+                        <Button title="Inventory" onPress={() => this.dismissAndNavigate('Inventory')} />
+                        <Button title="Change Guild" onPress={() => this.dismissAndNavigate('ChangeGuild')} />
                     </View>
                 </Modal>
             </View>

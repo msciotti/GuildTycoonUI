@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Navigator, Image, Dimensions, StyleSheet } from 'react-native';
 import GLOBAL from './Globals';
 import { EquippableItems, NonEquippableItems, CharacterCards } from './InventoryHelpers';
+import NavigationPopup from './NavigationPopup';
 
 class InventoryPage extends Component {
 	render(){		
@@ -11,6 +12,7 @@ class InventoryPage extends Component {
 				<NonEquippableItems />
 				<CharacterCards />
 				<Text style={styles.floatText}>{GLOBAL.currentGuild.guildInventory.size}/100 |  {GLOBAL.currentGuild.guildInventory.currency} gold</Text>					
+				<NavigationPopup navigator={this.props.navigator} />
 			</Image>
 		);
 	}

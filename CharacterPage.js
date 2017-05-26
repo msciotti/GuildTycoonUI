@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {  View, ListView, Text, Navigator, Button, StyleSheet, Image, Dimensions } from 'react-native';
 import GLOBAL from './Globals';
 import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
-import AppNavigator from './AppNavigator';
 import NavigationPopup from './NavigationPopup'
 
 class CharacterPage extends Component {
@@ -28,9 +27,17 @@ class CharacterPage extends Component {
   
   renderRow(character){
     return (      
-      <Button color='blue' onPress={() => AppNavigator.navigate(character.unitId)} title={character.name || 'eh heh wi'} />        
+      <Button color='blue' onPress={() => this.goToCharSheet(character.unitId)} title={character.name || 'eh heh wi'} />        
     );
-  }     
+  }
+
+  goToCharSheet(unitId){
+    let charSheetPage = require('./CharacterSheetPage');
+    this.props.navigator.push({
+      component: charSheetPage,
+      id: unitId
+    });
+  }  
 }
 
 const styles = StyleSheet.create({

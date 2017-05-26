@@ -8,7 +8,6 @@ class CharacterSheetPage extends Component {
     super(props);
     var chosenCharacter = GLOBAL.currentGuild.characters.find(x => x.unitId == this.props.route.id);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    console.log(JSON.stringify(chosenCharacter.equipmentSheet));
     this.state = { 
       character: chosenCharacter, 
       name: chosenCharacter.name,
@@ -45,8 +44,8 @@ class CharacterSheetPage extends Component {
   renderRow(item){
     let inventoryItem = GLOBAL.currentGuild.guildInventory.equippableItems.find(x => x.itemId == item);
     return ( 
-      //<TouchableOpacity color='blue' onPress={() => this.itemPopup()} title={item.value || 'eh heh wi'} />
-      <Text>{inventoryItem}</Text>
+      <TouchableOpacity color='blue' onPress={() => this.itemPopup()} title={inventoryItem.name || 'eh heh wi'} />
+      //<Text>{inventoryItem.name || 'test'}</Text>
     );
   }
 
@@ -70,7 +69,7 @@ class CharacterSheetPage extends Component {
       })
     };
     let response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/UpdateCharacter`, fetchParams);
-    let json = response.json();
+    let json = await response.json();
     GLOBAL.guild = json;
   }  
 }
