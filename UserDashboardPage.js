@@ -48,7 +48,7 @@ class UserDashboard extends Component {
 
   async manageGuild(){
     var characterPage = require('./CharacterPage');
-    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetGuild?guildId=${this.state.selectedGuildId}`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/User/Guild/${this.state.selectedGuildId}`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
     var json = await response.json();    
     GLOBAL.currentGuild = json;
     this.props.navigator.push({ component: characterPage });

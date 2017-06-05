@@ -35,13 +35,13 @@ class LoginPage extends Component {
   }
 
   async getGuildTycoonToken(accessToken){
-    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetToken?accessToken=${accessToken}`);
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/User/Token/${accessToken}`);
     var json = await response.json();
     GLOBAL.token = `Bearer ${json.token}`;    
   }
 
   async getUserData(){
-    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/GetUser`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
+    var response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/User`, { method: 'GET', headers: { 'Authorization': GLOBAL.token } });
     var json = await response.json();
     GLOBAL.userInfo = json;
   }    

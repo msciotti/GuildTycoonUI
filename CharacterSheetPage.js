@@ -55,7 +55,7 @@ class CharacterSheetPage extends Component {
 
   async changeCharacter(text, character){    
      let fetchParams = {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Authorization': GLOBAL.token,
         'Content-Type':'application/json'
@@ -68,7 +68,7 @@ class CharacterSheetPage extends Component {
         Regimen: character.regimen
       })
     };
-    let response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/UpdateCharacter`, fetchParams);
+    let response = await fetch(`http://guildtycoon-api-dev.azurewebsites.net/Guild/${Global.guild.guildId}/Character/${character.unitId}`, fetchParams);
     let json = await response.json();
     GLOBAL.guild = json;
   }  
